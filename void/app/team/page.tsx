@@ -18,6 +18,9 @@ export const metadata: Metadata = {
 };
 
 export default function TeamPage() {
+  const hasTrackRecord =
+    engagements.length > 0 || competitions.length > 0;
+
   return (
     <>
       <section className="page-head shell">
@@ -37,7 +40,8 @@ export default function TeamPage() {
         <p className="page-lede">
           We do not publish individual profiles. You meet the people who will
           run your engagement on the scoping call, and they are the same people
-          who write your report.
+          who write your report. If you need references, ask on that call: where
+          a client has agreed to take the conversation, we will introduce you.
         </p>
       </section>
 
@@ -122,96 +126,100 @@ export default function TeamPage() {
         </div>
       </section>
 
-      <section className="section shell">
-        <div className="section-heading">
-          <div>
-            <span className="section-kicker">03 / Track record</span>
-            <h2>
-              Receipts<span>.</span>
-            </h2>
-          </div>
-          <p>
-            Two lists: client engagements we have written permission to name,
-            and competition placements with a public scoreboard behind them.
-            Both are empty for now.
-          </p>
-        </div>
-
-        <div className="record-grid">
-          <div className="record-block">
-            <span className="detail-kicker">Client engagements</span>
-            {engagements.length === 0 ? (
-              <div className="empty-state">
-                <p>
-                  Nothing published yet. We do not name clients without written
-                  approval, and we do not publish sector-anonymised summaries
-                  that a competitor could reverse into an identification.
-                </p>
-                <p>
-                  Evaluating us and need references? Ask on the scoping call.
-                  Where a client has agreed to take the conversation, we will
-                  arrange the introduction.
-                </p>
-              </div>
-            ) : (
-              <ul className="record-list">
-                {engagements.map((engagement) => (
-                  <li key={`${engagement.year}-${engagement.sector}`}>
-                    <span>{engagement.year}</span>
-                    <div>
-                      <h3>{engagement.sector}</h3>
-                      <p>
-                        {engagement.scope}. {engagement.outcome}
-                      </p>
-                    </div>
-                  </li>
-                ))}
-              </ul>
-            )}
+      {/* Hidden until there is something to show. Add an entry to
+          `engagements` or `competitions` and the section returns. */}
+      {hasTrackRecord && (
+        <section className="section shell">
+          <div className="section-heading">
+            <div>
+              <span className="section-kicker">03 / Track record</span>
+              <h2>
+                Receipts<span>.</span>
+              </h2>
+            </div>
+            <p>
+              Two lists: client engagements we have written permission to name,
+              and competition placements with a public scoreboard behind them.
+              Both are empty for now.
+            </p>
           </div>
 
-          <div className="record-block">
-            <span className="detail-kicker">Capture the flag</span>
-            {competitions.length === 0 ? (
-              <div className="empty-state">
-                <p>
-                  We are still compiling results. Placements go up here with
-                  the event and the position, so you can check them against a
-                  public scoreboard.
-                </p>
-                <p>
-                  Entering an event is not a result, so nothing appears here
-                  until there is a placement to point at.
-                </p>
-              </div>
-            ) : (
-              <ul className="record-list">
-                {competitions.map((competition) => (
-                  <li key={`${competition.year}-${competition.event}`}>
-                    <span>{competition.year}</span>
-                    <div>
-                      <h3>
-                        {competition.url ? (
-                          <a
-                            href={competition.url}
-                            target="_blank"
-                            rel="noreferrer"
-                          >
-                            {competition.event}
-                          </a>
-                        ) : (
-                          competition.event
-                        )}
-                      </h3>
-                      <p>{competition.placement}</p>
-                    </div>
-                  </li>
-                ))}
-              </ul>
-            )}
+          <div className="record-grid">
+            <div className="record-block">
+              <span className="detail-kicker">Client engagements</span>
+              {engagements.length === 0 ? (
+                <div className="empty-state">
+                  <p>
+                    Nothing published yet. We do not name clients without written
+                    approval, and we do not publish sector-anonymised summaries
+                    that a competitor could reverse into an identification.
+                  </p>
+                  <p>
+                    Evaluating us and need references? Ask on the scoping call.
+                    Where a client has agreed to take the conversation, we will
+                    arrange the introduction.
+                  </p>
+                </div>
+              ) : (
+                <ul className="record-list">
+                  {engagements.map((engagement) => (
+                    <li key={`${engagement.year}-${engagement.sector}`}>
+                      <span>{engagement.year}</span>
+                      <div>
+                        <h3>{engagement.sector}</h3>
+                        <p>
+                          {engagement.scope}. {engagement.outcome}
+                        </p>
+                      </div>
+                    </li>
+                  ))}
+                </ul>
+              )}
+            </div>
+
+            <div className="record-block">
+              <span className="detail-kicker">Capture the flag</span>
+              {competitions.length === 0 ? (
+                <div className="empty-state">
+                  <p>
+                    We are still compiling results. Placements go up here with
+                    the event and the position, so you can check them against a
+                    public scoreboard.
+                  </p>
+                  <p>
+                    Entering an event is not a result, so nothing appears here
+                    until there is a placement to point at.
+                  </p>
+                </div>
+              ) : (
+                <ul className="record-list">
+                  {competitions.map((competition) => (
+                    <li key={`${competition.year}-${competition.event}`}>
+                      <span>{competition.year}</span>
+                      <div>
+                        <h3>
+                          {competition.url ? (
+                            <a
+                              href={competition.url}
+                              target="_blank"
+                              rel="noreferrer"
+                            >
+                              {competition.event}
+                            </a>
+                          ) : (
+                            competition.event
+                          )}
+                        </h3>
+                        <p>{competition.placement}</p>
+                      </div>
+                    </li>
+                  ))}
+                </ul>
+              )}
+            </div>
           </div>
-        </div>
-      </section>
+        </section>
+      )}
 
       <section className="contact-section">
         <div className="contact-grid" aria-hidden="true" />
