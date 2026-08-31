@@ -13,7 +13,7 @@ import { site } from "@/lib/site-data";
 export const metadata: Metadata = {
   metadataBase: new URL(site.url),
   title: {
-    default: `${site.name} — Security consulting, ${site.city}`,
+    default: site.name,
     template: `%s — ${site.name}`,
   },
   description: site.description,
