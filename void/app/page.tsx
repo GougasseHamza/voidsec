@@ -3,7 +3,7 @@ import { Fragment } from "react";
 
 import { ArrowUpRight, Crosshair } from "@/components/icons";
 import { Scope } from "@/components/scope";
-import { principles, services, site, strip } from "@/lib/site-data";
+import { partner, principles, services, site, strip } from "@/lib/site-data";
 
 export default function Home() {
   return (
@@ -142,6 +142,26 @@ export default function Home() {
               How we work
               <ArrowUpRight />
             </Link>
+          </div>
+        </div>
+      </section>
+
+      <section className="partner-band shell section" id="powered-by">
+        <div className="partner-inner">
+          <div className="partner-lead">
+            <span className="section-kicker">03 / Powered by</span>
+            <h2 className="partner-mark">{partner.name}</h2>
+          </div>
+
+          <div className="partner-copy">
+            <p>
+              VoidSec is powered by {partner.legalName}. Their backing is what
+              puts a senior team behind engagements of this size, and what lets
+              us turn work down when we are not the right people for it.
+            </p>
+            <p className="partner-thanks">
+              Our thanks to the {partner.name} team.
+            </p>
           </div>
         </div>
       </section>

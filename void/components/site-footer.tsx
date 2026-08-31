@@ -1,6 +1,6 @@
 import Link from "next/link";
 
-import { nav, services, site } from "@/lib/site-data";
+import { nav, partner, services, site } from "@/lib/site-data";
 
 export function SiteFooter() {
   const year = new Date().getFullYear();
@@ -52,6 +52,16 @@ export function SiteFooter() {
         <div className="footer-bottom">
           <span>
             © {year} {site.name}
+          </span>
+          <span className="footer-powered">
+            Powered by{" "}
+            {partner.url ? (
+              <a href={partner.url} rel="noreferrer" target="_blank">
+                {partner.name}
+              </a>
+            ) : (
+              <strong>{partner.name}</strong>
+            )}
           </span>
           <span className="footer-locale">
             {site.city}, {site.country} · {site.coords}

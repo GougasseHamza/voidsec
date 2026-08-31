@@ -17,6 +17,14 @@ export const site = {
     "VoidSec is a security consultancy in Rabat. We audit applications, infrastructure and cloud estates for Moroccan banks, insurers, telecoms and the companies that build for them.",
 };
 
+/** The company backing VoidSec. Credited in the footer and on the homepage. */
+export const partner = {
+  name: "IKlight",
+  legalName: "IKlight SARL",
+  // TODO: add the company URL and the credit becomes a link automatically.
+  url: "",
+};
+
 export type NavItem = { href: string; label: string };
 
 export const nav: NavItem[] = [
