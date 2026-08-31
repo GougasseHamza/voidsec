@@ -258,18 +258,6 @@ main { scroll-margin-top: calc(var(--header-h) + 22px); }
   opacity: 0.5;
 }
 
-.header-status {
-  justify-self: end;
-  display: inline-flex;
-  align-items: center;
-  gap: 9px;
-  color: var(--paper-dim);
-  font-family: var(--mono);
-  font-size: 9px;
-  text-transform: uppercase;
-  letter-spacing: 0.12em;
-}
-
 .status-pulse {
   width: 6px;
   height: 6px;
@@ -1655,8 +1643,7 @@ main { scroll-margin-top: calc(var(--header-h) + 22px); }
     grid-template-columns: 1fr auto;
   }
 
-  .main-nav,
-  .header-status { display: none; }
+  .main-nav { display: none; }
 
   .nav-toggle { display: grid; }
 

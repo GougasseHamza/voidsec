@@ -45,11 +45,6 @@ export function SiteHeader() {
           ))}
         </nav>
 
-        <div className="header-status">
-          <span className="status-pulse" aria-hidden="true" />
-          {site.city}, {site.country}
-        </div>
-
         <button
           type="button"
           className="nav-toggle"
