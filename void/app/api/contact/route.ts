@@ -1,3 +1,4 @@
+import nodemailer from "nodemailer";
 import { NextResponse } from "next/server";
 
 import { site } from "@/lib/site-data";
@@ -42,6 +43,11 @@ function clean(value: unknown): string {
   return typeof value === "string" ? value.trim().slice(0, MAX_FIELD) : "";
 }
 
+/** Strip CR/LF so user input cannot inject extra mail headers. */
+function headerSafe(value: string): string {
+  return value.replace(/[\r\n]+/g, " ").trim();
+}
+
 export async function POST(request: Request) {
   const ip =
     request.headers.get("x-forwarded-for")?.split(",")[0]?.trim() || "unknown";
@@ -84,19 +90,24 @@ export async function POST(request: Request) {
     );
   }
 
-  const apiKey = process.env.RESEND_API_KEY;
-  const from = process.env.CONTACT_FROM;
-  // No default: falling back to the placeholder address would send real
-  // enquiries into a mailbox that does not exist and report them as delivered.
+  // Plain SMTP, so this works with Zoho (already the authorised sender for
+  // this domain), Resend, Postmark or anything else without a code change.
+  const host = process.env.SMTP_HOST;
+  const port = Number(process.env.SMTP_PORT ?? 465);
+  const user = process.env.SMTP_USER;
+  const pass = process.env.SMTP_PASS;
   const to = process.env.CONTACT_TO;
+  // Most providers reject a From that is not the authenticated mailbox.
+  const from = process.env.CONTACT_FROM ?? user;
 
-  // No mail provider wired up yet — say so rather than showing a success
-  // state for a message that nobody is going to receive.
-  if (!apiKey || !from || !to) {
-    console.warn("[contact] mail delivery unconfigured; enquiry not delivered", {
+  // Nothing configured yet. Say so rather than showing a success state for a
+  // message nobody is going to receive.
+  if (!host || !user || !pass || !to) {
+    console.warn("[contact] SMTP unconfigured; enquiry not delivered", {
       subject,
-      hasKey: Boolean(apiKey),
-      hasFrom: Boolean(from),
+      hasHost: Boolean(host),
+      hasUser: Boolean(user),
+      hasPass: Boolean(pass),
       hasTo: Boolean(to),
     });
     return NextResponse.json(
@@ -117,30 +128,22 @@ export async function POST(request: Request) {
   ].join("\n");
 
   try {
-    const response = await fetch("https://api.resend.com/emails", {
-      method: "POST",
-      headers: {
-        Authorization: `Bearer ${apiKey}`,
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        from,
-        to: [to],
-        reply_to: email,
-        subject: `[voidsec.sh] ${subject} — ${name}`,
-        text,
-      }),
+    const transport = nodemailer.createTransport({
+      host,
+      port,
+      secure: port === 465,
+      auth: { user, pass },
     });
 
-    if (!response.ok) {
-      console.error("[contact] provider rejected send", await response.text());
-      return NextResponse.json(
-        { error: `Could not send. Write to ${site.email} instead.` },
-        { status: 502 },
-      );
-    }
+    await transport.sendMail({
+      from: `"${headerSafe(name)} via voidsec.sh" <${from}>`,
+      to,
+      replyTo: headerSafe(email),
+      subject: headerSafe(`[voidsec.sh] ${subject} - ${name}`),
+      text,
+    });
   } catch (error) {
-    console.error("[contact] provider unreachable", error);
+    console.error("[contact] SMTP send failed", error);
     return NextResponse.json(
       { error: `Could not send. Write to ${site.email} instead.` },
       { status: 502 },

@@ -70,29 +70,43 @@ array and a new component, not an edit to this one.
    (Law 05-20, DGSSI, CNDP, ISO/IEC 27001) against current Moroccan
    requirements before publishing them as a service scope.
 3. **Wire the contact form** (below). Until you do, the form returns a 503 and
-   tells the sender to email directly — it never shows a false success.
+   tells the sender to email directly. It never shows a false success.
 
 ## Contact form
 
-`POST /api/contact` sends through [Resend](https://resend.com) via plain
-`fetch`, so there is no SDK dependency. Set these environment variables:
+`POST /api/contact` sends over SMTP via nodemailer, so it works with any mail
+provider without a code change.
+
+`voidsec.sh` already runs on Zoho Mail, and its SPF record authorises Zoho and
+nothing else. Sending through Zoho therefore needs no DNS changes and passes SPF
+as-is. To turn the form on:
+
+1. In Zoho Mail, open **Settings > Security > App passwords** and generate one
+   for `contact@voidsec.sh`. Use that, not the account login password.
+2. In Vercel, under **Settings > Environment Variables**, add:
 
 ```
-RESEND_API_KEY=re_...
-CONTACT_FROM=website@voidsec.sh      # must be a Resend-verified sender
-CONTACT_TO=contact@voidsec.sh        # required — where enquiries land
+SMTP_HOST=smtp.zoho.com          # smtp.zoho.eu if the account is in the EU DC
+SMTP_PORT=465
+SMTP_USER=contact@voidsec.sh
+SMTP_PASS=<the app password>
+CONTACT_TO=contact@voidsec.sh
 ```
 
-If any of the three is missing the route logs that fact server-side and returns
-503 with a message pointing at the email address — it never reports a message as
-delivered when it was not. The endpoint is rate limited to five submissions per
-IP per ten minutes.
+3. Redeploy so the new variables are picked up.
 
-**DNS note.** `voidsec.sh` currently publishes `v=spf1 include:zohomail.com ~all`,
-so Zoho is the only sender authorised for the domain. Before Resend can send as
-`@voidsec.sh` you must add its DKIM record and include it in SPF, or send from a
-subdomain Resend owns the records for. Until that is done the form will keep
-returning its honest 503 rather than sending — it will not fail silently.
+`CONTACT_FROM` is optional and defaults to `SMTP_USER`. Set it only if you want
+to send as a verified alias.
+
+Mail is sent from the mailbox with `Reply-To` set to whoever filled in the form,
+so replying in Zoho goes straight back to the enquirer.
+
+Until all four required variables are set, the route logs that fact server-side
+and returns 503 with a message pointing at the email address. It never reports a
+message as delivered when it was not. The endpoint is rate limited to five
+submissions per IP per ten minutes, caps the body at 32 KB, drops honeypot
+submissions silently, and strips CR/LF from user input so the form cannot be
+used to inject mail headers.
 
 ## Deploy to Vercel
 
