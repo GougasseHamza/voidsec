@@ -64,7 +64,7 @@ export const services: Service[] = [
     name: "Security assessment",
     short: "What can be reached from outside, and from a foothold inside.",
     summary:
-      "A technical review of what you actually run, approached the way an attacker would rather than the way a checklist would.",
+      "A technical review of the systems you run, approached the way an attacker would approach them.",
     scope: [
       "Web and mobile applications, including authenticated and multi-tenant paths",
       "Internal and external network exposure",
@@ -72,7 +72,7 @@ export const services: Service[] = [
       "Third-party and dependency exposure",
     ],
     deliverable:
-      "Findings ranked by exploitability, each with reproduction steps, affected assets and a fix that fits your stack — plus a retest once the fixes land.",
+      "Findings ranked by exploitability. Each one comes with the steps to reproduce it, the assets it affects and a fix that suits your stack. We retest once the fixes land.",
   },
   {
     slug: "architecture-review",
@@ -90,7 +90,7 @@ export const services: Service[] = [
       "Data flow, retention and exposure between services",
     ],
     deliverable:
-      "A written review of the design decisions that carry risk, the failure each one permits and the alternatives — walked through with your engineers, not mailed at them.",
+      "A written review of the design decisions that carry risk, the failure each one permits and what you could do instead. We sit with your engineers and go through it.",
   },
   {
     slug: "compliance-readiness",
@@ -100,7 +100,7 @@ export const services: Service[] = [
     name: "Compliance readiness",
     short: "Regulatory obligation turned into work you can schedule.",
     summary:
-      "Translating what the regulator expects into a backlog your engineering team can actually plan around.",
+      "Translating what the regulator expects into a backlog your engineering team can plan around.",
     scope: [
       "Gap analysis against Law 05-20 and DGSSI guidance",
       "CNDP obligations for personal data handling",
@@ -126,7 +126,7 @@ export const services: Service[] = [
       "Post-exercise gap remediation",
     ],
     deliverable:
-      "An honest account of where visibility stops, what your team can and cannot reconstruct after the fact, and the runbooks to close that distance.",
+      "A plain account of where your visibility stops, what your team could reconstruct after an intrusion, and the runbooks to cover the gaps.",
   },
 ];
 
@@ -137,19 +137,19 @@ export const engagementModel: Step[] = [
     index: "A",
     label: "NO CHARGE",
     name: "Scoping call",
-    body: "Half an hour on a call produces three things: the assets that would actually be in scope, the constraints we would be working around, and an honest answer on whether there is an engagement here at all.",
+    body: "Half an hour on a call. We work out what would be in scope and what we would be working around, and you get a straight answer on whether there is an engagement here at all.",
   },
   {
     index: "B",
     label: "IN WRITING",
     name: "Rules of engagement",
-    body: "Assets, testing windows, escalation contacts and the boundary of what we will touch — agreed and signed before anything starts.",
+    body: "Assets, testing windows, escalation contacts and the boundary of what we will touch, all agreed and signed before anything starts.",
   },
   {
     index: "C",
     label: "LIVE CHANNEL",
     name: "Testing",
-    body: "Critical findings reach you the day we confirm them, not when the report is ready. You talk to the people doing the work, not an account manager.",
+    body: "Critical findings reach you the day we confirm them rather than waiting for the report. You talk to the people doing the work.",
   },
   {
     index: "D",
@@ -161,7 +161,7 @@ export const engagementModel: Step[] = [
     index: "E",
     label: "INCLUDED",
     name: "Retest",
-    body: "Once the fixes land we verify them and reissue the report. Part of the engagement, not a separate invoice.",
+    body: "Once the fixes land we verify them and reissue the report. It is included in the price.",
   },
 ];
 
@@ -197,7 +197,7 @@ export const disciplines: Discipline[] = [
     focus: "Implementation and key handling",
     tags: ["Cryptanalysis", "Key management"],
     detail:
-      "Cryptographic implementation and protocol review — the cases where the primitive is sound but the way it was wired into the system is not.",
+      "Cryptographic implementation and protocol review. Usually the primitive is sound and the way it was wired into the system is not.",
     signal: "CIPHERS // PROTOCOLS",
   },
   {
@@ -217,7 +217,7 @@ export const disciplines: Discipline[] = [
     focus: "Cloud posture and detection",
     tags: ["Cloud and network", "Detection review"],
     detail:
-      "Cloud configuration, identity boundaries and network exposure — and whether the logging in place could actually reconstruct an intrusion after the fact.",
+      "Cloud configuration, identity boundaries and network exposure, plus whether the logging in place could reconstruct an intrusion after the fact.",
     signal: "CLOUD // TELEMETRY",
   },
 ];
@@ -228,7 +228,7 @@ export const principles: Principle[] = [
   {
     index: "01",
     title: "Exploitability over severity theatre",
-    body: "A scanner produces a hundred findings and no priorities. We report what chains into real access on your systems — and we say plainly when something scored high but goes nowhere.",
+    body: "A scanner produces a hundred findings and no priorities. We report what chains into real access on your systems. We also say plainly when something scored high but goes nowhere.",
   },
   {
     index: "02",
@@ -243,7 +243,7 @@ export const principles: Principle[] = [
 ];
 
 /**
- * Client engagements — published only with written client approval.
+ * Client engagements. Published only with written client approval.
  * Add as: { year, sector, scope, outcome }.
  */
 export type Engagement = {

@@ -18,8 +18,8 @@ export function SiteFooter() {
               <span className="brand-name">VOIDSEC</span>
             </Link>
             <p className="footer-blurb">
-              Security consulting for organisations that cannot afford to find
-              out the hard way.
+              Security consulting for banks, insurers and telecoms in
+              Morocco.
             </p>
             <a className="footer-email" href={`mailto:${site.email}`}>
               {site.email}
@@ -57,10 +57,10 @@ export function SiteFooter() {
             Powered by{" "}
             {partner.url ? (
               <a href={partner.url} rel="noreferrer" target="_blank">
-                {partner.name}
+                {partner.legalName}
               </a>
             ) : (
-              <strong>{partner.name}</strong>
+              <strong>{partner.legalName}</strong>
             )}
           </span>
           <span className="footer-locale">

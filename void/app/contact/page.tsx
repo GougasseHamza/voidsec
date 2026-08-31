@@ -20,9 +20,9 @@ export default function ContactPage() {
           scoping call<span>.</span>
         </h1>
         <p className="page-lede">
-          Thirty minutes to establish what you run, what worries you and whether
-          we are the right people for it. No charge, and no proposal until the
-          scope is real. If we are not the right fit, we will say so on the call.
+          Thirty minutes to work out what you run and what worries you. No
+          charge, and no proposal until the scope is real. If we are not the
+          right fit, we will say so on the call.
         </p>
       </section>
 

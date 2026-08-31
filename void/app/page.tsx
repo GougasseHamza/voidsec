@@ -30,7 +30,7 @@ export default function Home() {
             <p>
               We audit applications, infrastructure and cloud estates for
               Moroccan banks, insurers, telecoms and the companies that build
-              for them — and report what an attacker could actually reach.
+              for them, then report what an attacker could reach.
             </p>
             <Link
               className="circle-link"
@@ -124,7 +124,7 @@ export default function Home() {
             VoidSec is a small team of senior cybersecurity professionals with
             deep competitive capture-the-flag experience across web
             exploitation, cryptography, reverse engineering and binary
-            exploitation. We do not publish individual profiles — you meet the
+            exploitation. We do not publish individual profiles. You meet the
             people who will do the work on the scoping call.
           </p>
 
@@ -155,9 +155,9 @@ export default function Home() {
 
           <div className="partner-copy">
             <p>
-              VoidSec is powered by {partner.legalName}. Their backing is what
-              puts a senior team behind engagements of this size, and what lets
-              us turn work down when we are not the right people for it.
+              VoidSec is powered by {partner.legalName}. Their backing puts a
+              senior team behind engagements of this size, and it is why we can
+              turn work down when we are not the right people for it.
             </p>
             <p className="partner-thanks">
               Our thanks to the {partner.name} team.

@@ -109,7 +109,7 @@ export async function POST(request: Request) {
 
   const text = [
     `Name: ${name}`,
-    `Organisation: ${organisation || "—"}`,
+    `Organisation: ${organisation || "(not given)"}`,
     `Email: ${email}`,
     `Subject: ${subject}`,
     "",

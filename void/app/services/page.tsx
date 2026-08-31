@@ -103,7 +103,7 @@ export default function ServicesPage() {
           <div className="contact-bottom">
             <p>
               Most people are not, and it is not your job to be. Describe the
-              system and we will tell you what is worth doing first — including
+              system and we will tell you what is worth doing first, including
               when the answer is nothing yet.
             </p>
             <div className="contact-actions">

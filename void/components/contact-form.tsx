@@ -32,7 +32,7 @@ export function ContactForm() {
     if (invalid.length > 0) {
       setStatus({
         tone: "error",
-        message: `Not sent — check ${invalid.join(", ")}.`,
+        message: `Not sent. Check ${invalid.join(", ")}.`,
       });
       form.querySelector<HTMLElement>(`#${invalid[0]}`)?.focus();
       return;

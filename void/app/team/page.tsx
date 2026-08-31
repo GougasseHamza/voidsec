@@ -28,11 +28,11 @@ export default function TeamPage() {
           no bench<span>.</span>
         </h1>
         <p className="page-lede">
-          VoidSec is a small team of senior cybersecurity professionals with deep
-          competitive capture-the-flag experience — web exploitation,
-          cryptography, reverse engineering and binary exploitation. That is
-          where the reflex for chaining small findings into real access comes
-          from, and it is what we bring to client work.
+          VoidSec is a small team of senior cybersecurity professionals with
+          deep competitive capture-the-flag experience across web exploitation,
+          cryptography, reverse engineering and binary exploitation. Competition
+          rewards chaining small findings into real access, which is most of
+          what client work turns out to be.
         </p>
         <p className="page-lede">
           We do not publish individual profiles. You meet the people who will
@@ -50,9 +50,9 @@ export default function TeamPage() {
             </h2>
           </div>
           <p>
-            Four disciplines that overlap on every engagement: an odd response
-            header becomes an exposure lead, a key-handling detail becomes a
-            path into the data, a binary detail becomes control.
+            Four disciplines that overlap on most engagements. An odd response
+            header turns into an exposure lead; a detail in how keys are handled
+            turns into a path at the data behind them.
           </p>
         </div>
 
@@ -133,7 +133,7 @@ export default function TeamPage() {
           <p>
             Two lists: client engagements we have written permission to name,
             and competition placements with a public scoreboard behind them.
-            Both stay empty until they are neither.
+            Both are empty for now.
           </p>
         </div>
 
@@ -161,7 +161,7 @@ export default function TeamPage() {
                     <div>
                       <h3>{engagement.sector}</h3>
                       <p>
-                        {engagement.scope} — {engagement.outcome}
+                        {engagement.scope}. {engagement.outcome}
                       </p>
                     </div>
                   </li>
@@ -175,8 +175,8 @@ export default function TeamPage() {
             {competitions.length === 0 ? (
               <div className="empty-state">
                 <p>
-                  Results are being compiled. Placements go up here with the
-                  event and the position, so they can be checked against a
+                  We are still compiling results. Placements go up here with
+                  the event and the position, so you can check them against a
                   public scoreboard.
                 </p>
                 <p>
