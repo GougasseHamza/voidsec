@@ -2,13 +2,19 @@ import type { Metadata } from "next";
 import Link from "next/link";
 
 import { ArrowUpRight, Crosshair } from "@/components/icons";
-import { competitions, engagements, members, principles, site } from "@/lib/site-data";
+import {
+  competitions,
+  disciplines,
+  engagements,
+  principles,
+  site,
+} from "@/lib/site-data";
 
 export const metadata: Metadata = {
   title: "Team",
   alternates: { canonical: "/team" },
   description:
-    "Four people: application security, cryptography, reverse engineering and infrastructure. The people you meet are the people who do the work.",
+    "A small team of senior cybersecurity professionals with deep competitive capture-the-flag experience across web, cryptography, reverse engineering and infrastructure.",
 };
 
 export default function TeamPage() {
@@ -17,60 +23,67 @@ export default function TeamPage() {
       <section className="page-head shell">
         <span className="section-kicker">Team</span>
         <h1>
-          Four people,
+          Senior operators,
           <br />
           no bench<span>.</span>
         </h1>
         <p className="page-lede">
-          VoidSec started as a capture-the-flag team and still competes under the
-          name. The habits that came out of it — chaining small findings,
-          refusing to stop at the first plausible answer — are the ones we bring
-          to client work.
+          VoidSec is a small team of senior cybersecurity professionals with deep
+          competitive capture-the-flag experience — web exploitation,
+          cryptography, reverse engineering and binary exploitation. That is
+          where the reflex for chaining small findings into real access comes
+          from, and it is what we bring to client work.
+        </p>
+        <p className="page-lede">
+          We do not publish individual profiles. You meet the people who will
+          run your engagement on the scoping call, and they are the same people
+          who write your report.
         </p>
       </section>
 
       <section className="section shell">
         <div className="section-heading">
           <div>
-            <span className="section-kicker">01 / Roster</span>
+            <span className="section-kicker">01 / Coverage</span>
             <h2>
-              Who does the work<span>.</span>
+              What we cover<span>.</span>
             </h2>
           </div>
           <p>
-            Four disciplines, one engagement. Where a finding crosses two of
-            them, the two of us who own those areas work it together.
+            Four disciplines that overlap on every engagement: an odd response
+            header becomes an exposure lead, a key-handling detail becomes a
+            path into the data, a binary detail becomes control.
           </p>
         </div>
 
         <div className="operator-grid">
-          {members.map((member) => (
-            <article className="operator-card" key={member.handle}>
+          {disciplines.map((discipline) => (
+            <article className="operator-card" key={discipline.code}>
               <div className="operator-topline">
-                <span>OP / {member.index}</span>
+                <span>AREA / {discipline.index}</span>
                 <Crosshair />
               </div>
 
               <div className="operator-monogram" aria-hidden="true">
-                <span>{member.initials}</span>
-                <i>{member.code}</i>
+                <span>{discipline.index}</span>
+                <i>{discipline.code}</i>
               </div>
 
               <div className="operator-identity">
-                <h3>{member.name ?? member.handle}</h3>
-                <span>{member.role}</span>
+                <h3>{discipline.name}</h3>
+                <span>{discipline.focus}</span>
               </div>
 
-              <p className="operator-statement">{member.statement}</p>
+              <p className="operator-statement">{discipline.detail}</p>
 
               <div className="operator-disciplines">
-                {member.disciplines.map((discipline) => (
-                  <span key={discipline}>{discipline}</span>
+                {discipline.tags.map((tag) => (
+                  <span key={tag}>{tag}</span>
                 ))}
               </div>
 
               <div className="operator-footer">
-                <span>{member.signal}</span>
+                <span>{discipline.signal}</span>
                 <ArrowUpRight />
               </div>
             </article>
@@ -80,7 +93,7 @@ export default function TeamPage() {
 
       <section className="manifesto shell section">
         <div className="manifesto-aside">
-          <span className="section-kicker">How we work</span>
+          <span className="section-kicker">02 / How we work</span>
           <div className="manifesto-counter">
             <span>3</span>
             <small>rules we hold to</small>
@@ -112,7 +125,7 @@ export default function TeamPage() {
       <section className="section shell">
         <div className="section-heading">
           <div>
-            <span className="section-kicker">Track record</span>
+            <span className="section-kicker">03 / Track record</span>
             <h2>
               Receipts<span>.</span>
             </h2>
@@ -210,7 +223,7 @@ export default function TeamPage() {
           <h2>
             Meet the
             <br />
-            <span>four.</span>
+            <span>team.</span>
           </h2>
           <div className="contact-bottom">
             <p>

@@ -157,62 +157,59 @@ export const engagementModel: Step[] = [
   },
 ];
 
-export type Member = {
+/**
+ * Capability areas. Deliberately not people: the team does not publish
+ * individual profiles, so nothing here names or identifies anyone.
+ */
+export type Discipline = {
   index: string;
-  handle: string;
-  /** Real name, once the team approves publishing it. */
-  name?: string;
-  initials: string;
   code: string;
-  role: string;
-  disciplines: string[];
-  statement: string;
+  name: string;
+  focus: string;
+  tags: string[];
+  detail: string;
   signal: string;
 };
 
-export const members: Member[] = [
+export const disciplines: Discipline[] = [
   {
     index: "01",
-    handle: "blinkyy",
-    initials: "BL",
     code: "APPSEC.OSINT",
-    role: "Application Security / OSINT",
-    disciplines: ["Web exploitation", "Exposure mapping"],
-    statement:
-      "Works the application layer and the context around it: exposed infrastructure, forgotten subdomains, and the gap between what a company thinks is public and what is.",
+    name: "Application security",
+    focus: "Web, mobile and the exposure around them",
+    tags: ["Web exploitation", "Exposure mapping"],
+    detail:
+      "The application layer and the context around it: authenticated and multi-tenant paths, exposed infrastructure, forgotten subdomains, and the gap between what a company thinks is public and what is.",
     signal: "HTTP // PUBLIC DATA",
   },
   {
     index: "02",
-    handle: "nh72",
-    initials: "N7",
     code: "CRYPTO",
-    role: "Cryptography / Protocol Review",
-    disciplines: ["Cryptanalysis", "Key management"],
-    statement:
-      "Reviews cryptographic implementation and key handling — the cases where the primitive is sound but the way it was wired into the system is not.",
+    name: "Cryptography",
+    focus: "Implementation and key handling",
+    tags: ["Cryptanalysis", "Key management"],
+    detail:
+      "Cryptographic implementation and protocol review — the cases where the primitive is sound but the way it was wired into the system is not.",
     signal: "CIPHERS // PROTOCOLS",
   },
   {
     index: "03",
-    handle: "smAn",
-    initials: "SM",
     code: "REV.PWN",
-    role: "Reverse Engineering / Binary",
-    disciplines: ["Binary analysis", "Memory corruption"],
-    statement:
-      "Takes compiled software apart. Firmware, native clients, and anything where the source is unavailable and the behaviour still has to be established.",
+    name: "Reverse engineering",
+    focus: "Compiled software and memory",
+    tags: ["Binary analysis", "Memory corruption"],
+    detail:
+      "Taking compiled software apart. Firmware, native clients, and anything where the source is unavailable and the behaviour still has to be established.",
     signal: "BINARY // MEMORY",
   },
   {
     index: "04",
-    handle: "Yass",
-    initials: "YA",
     code: "CLOUD.DETECT",
-    role: "Infrastructure / Incident Readiness",
-    disciplines: ["Cloud and network", "Detection review"],
-    statement:
-      "Covers cloud posture, network exposure, and whether the logging in place could actually reconstruct an intrusion after the fact.",
+    name: "Infrastructure",
+    focus: "Cloud posture and detection",
+    tags: ["Cloud and network", "Detection review"],
+    detail:
+      "Cloud configuration, identity boundaries and network exposure — and whether the logging in place could actually reconstruct an intrusion after the fact.",
     signal: "CLOUD // TELEMETRY",
   },
 ];
@@ -232,8 +229,8 @@ export const principles: Principle[] = [
   },
   {
     index: "03",
-    title: "The four of us do the work",
-    body: "The people on the scoping call are the people testing your systems and writing your report. Nothing is handed to a junior once the contract is signed.",
+    title: "The people you meet do the work",
+    body: "Whoever is on the scoping call is testing your systems and writing your report. Nothing is handed to a junior once the contract is signed.",
   },
 ];
 

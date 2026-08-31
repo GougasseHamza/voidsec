@@ -48,7 +48,7 @@ Almost everything is in `lib/site-data.ts`:
 | Scrolling strip under the hero | `strip` |
 | The four services, their scope and deliverables | `services` |
 | The five engagement steps | `engagementModel` |
-| Team members | `members` |
+| Capability areas shown on /team | `disciplines` |
 | The three working principles | `principles` |
 | Client engagements (empty) | `engagements` |
 | CTF results (empty) | `competitions` |
@@ -57,8 +57,9 @@ Almost everything is in `lib/site-data.ts`:
 renders an honest empty state while they are empty and switches to a list the
 moment you add entries — so nothing has to be redesigned to publish a result.
 
-Members have an optional `name` field. Add it and the site shows the real name
-instead of the handle.
+The site deliberately does not name individuals. `disciplines` describes what
+the team covers; if you ever want named profiles back, that is a new data
+array and a new component, not an edit to this one.
 
 ## Before going live
 
