@@ -1,6 +1,9 @@
 # VoidSec
 
-Public website for the VoidSec capture-the-flag team.
+Public website for VoidSec — a security consultancy in Rabat, Morocco.
+
+Next.js (App Router) + TypeScript, no CSS framework. All styling lives in one
+stylesheet; all content lives in one data file.
 
 ## Run locally
 
@@ -15,19 +18,78 @@ Open [http://localhost:3000](http://localhost:3000).
 
 ```bash
 npm run lint
-npm run check
+npm run check   # tsc --noEmit
 npm run build
 ```
 
-## Customize
+## Structure
 
-- Team member names, roles, and descriptions: `lib/site-data.ts`
-- Page sections and metadata: `app/page.tsx` and `app/layout.tsx`
-- Colors, layout, animation, and responsive behavior: `app/globals.css`
-- Contact channel: replace the provisioning state in the `#contact` section after the official domain and mailbox are active
+```
+app/
+  layout.tsx          header, footer, fonts, site-wide metadata
+  page.tsx            home
+  services/page.tsx   the four practices + engagement model
+  team/page.tsx       roster, principles, track record
+  contact/page.tsx    contact form + details
+  api/contact/route.ts  form handler
+  globals.css         the entire design system
+components/           header, footer, contact form, hero graphic, icons
+lib/site-data.ts      all site content
+```
+
+## Editing content
+
+Almost everything is in `lib/site-data.ts`:
+
+| What | Where |
+|---|---|
+| Contact email, city, coordinates, domain | `site` |
+| Nav items | `nav` |
+| Scrolling strip under the hero | `strip` |
+| The four services, their scope and deliverables | `services` |
+| The five engagement steps | `engagementModel` |
+| Team members | `members` |
+| The three working principles | `principles` |
+| Client engagements (empty) | `engagements` |
+| CTF results (empty) | `competitions` |
+
+`engagements` and `competitions` are intentionally empty arrays. The team page
+renders an honest empty state while they are empty and switches to a list the
+moment you add entries — so nothing has to be redesigned to publish a result.
+
+Members have an optional `name` field. Add it and the site shows the real name
+instead of the handle.
+
+## Before going live
+
+1. **Buy the domain and set the real mailbox.** `site.email` is currently the
+   placeholder `contact@voidsec.ma`. Update `site.email` and `site.url` in
+   `lib/site-data.ts`.
+2. **Verify the regulatory references** in the `compliance-readiness` service
+   (Law 05-20, DGSSI, CNDP, ISO/IEC 27001) against current Moroccan
+   requirements before publishing them as a service scope.
+3. **Wire the contact form** (below). Until you do, the form returns a 503 and
+   tells the sender to email directly — it never shows a false success.
+
+## Contact form
+
+`POST /api/contact` sends through [Resend](https://resend.com) via plain
+`fetch`, so there is no SDK dependency. Set these environment variables:
+
+```
+RESEND_API_KEY=re_...
+CONTACT_FROM=website@yourdomain.ma   # must be a Resend-verified sender
+CONTACT_TO=you@yourdomain.ma         # required — where enquiries land
+```
+
+If any of the three is missing the route logs that fact server-side and returns
+503 with a message pointing at the email address — it never reports a message as
+delivered when it was not. The endpoint is rate limited to five submissions per
+IP per ten minutes.
 
 ## Deploy to Vercel
 
-Push this directory to a Git repository, import it into Vercel, and keep the detected Next.js defaults. No custom build or output settings are required.
-
-After buying the official domain, add it under **Project Settings → Domains** in Vercel. Email MX/TXT records should remain managed through the domain's DNS provider; they do not conflict with the website configuration.
+Import this directory into Vercel and keep the detected Next.js defaults. Add
+the environment variables above under **Settings → Environment Variables**, and
+the domain under **Settings → Domains**. Email MX/TXT records stay with your DNS
+provider and do not conflict with the site.

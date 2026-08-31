@@ -1,90 +1,48 @@
-import { AmbientPointer } from "@/components/ambient-pointer";
-import { ArrowUpRight, Crosshair } from "@/components/icons";
-import { capabilities, members } from "@/lib/site-data";
+import Link from "next/link";
+import { Fragment } from "react";
 
-const year = new Date().getFullYear();
+import { ArrowUpRight, Crosshair } from "@/components/icons";
+import { Scope } from "@/components/scope";
+import { members, principles, services, site, strip } from "@/lib/site-data";
 
 export default function Home() {
   return (
-    <main>
-      <AmbientPointer />
-
-      <header className="site-header shell">
-        <a className="brand" href="#top" aria-label="VoidSec home">
-          <span className="brand-mark" aria-hidden="true">
-            <span>V</span>
-            <i />
-          </span>
-          <span className="brand-name">VOIDSEC</span>
-        </a>
-
-        <nav className="main-nav" aria-label="Primary navigation">
-          <a href="#operators">Operators</a>
-          <a href="#capabilities">Capabilities</a>
-          <a href="#contact">Contact</a>
-        </nav>
-
-        <div className="header-status" aria-label="Team status: online">
-          <span className="status-pulse" />
-          System online
-        </div>
-      </header>
-
+    <>
       <section className="hero shell" id="top">
         <div className="hero-grid-lines" aria-hidden="true" />
 
         <div className="hero-copy">
           <div className="eyebrow hero-eyebrow">
-            <span>Capture the flag collective</span>
-            <span className="eyebrow-code">VS / 2026</span>
+            <span>Security consulting</span>
+            <span className="eyebrow-code">
+              {site.city.toUpperCase()} / {site.country.toUpperCase()}
+            </span>
           </div>
 
           <h1>
-            <span>Trace the</span>
+            <span>Find it</span>
             <span className="hero-title-accent">
-              unkn<span className="title-target">o</span>wn.
+              bef<span className="title-target">o</span>re they do.
             </span>
           </h1>
 
           <div className="hero-intro-row">
             <p>
-              Four operators. One shared objective: reduce complex systems to the
-              detail that breaks them open.
+              We audit applications, infrastructure and cloud estates for
+              Moroccan banks, insurers, telecoms and the companies that build
+              for them — and report what an attacker could actually reach.
             </p>
-            <a className="circle-link" href="#operators" aria-label="Meet the operators">
+            <Link
+              className="circle-link"
+              href="/contact"
+              aria-label="Request a scoping call"
+            >
               <ArrowUpRight />
-            </a>
+            </Link>
           </div>
         </div>
 
-        <div className="signal-stage" aria-label="VoidSec operational signal graphic">
-          <div className="signal-meta signal-meta-top">
-            <span>Target surface</span>
-            <span>04 vectors</span>
-          </div>
-
-          <div className="scope">
-            <div className="scope-ring scope-ring-one" />
-            <div className="scope-ring scope-ring-two" />
-            <div className="scope-ring scope-ring-three" />
-            <div className="scope-axis scope-axis-x" />
-            <div className="scope-axis scope-axis-y" />
-            <div className="scope-sweep" />
-            <div className="scope-core">
-              <span className="scope-slash">/</span>
-              <span>VS</span>
-            </div>
-            <span className="scope-node node-one">01</span>
-            <span className="scope-node node-two">02</span>
-            <span className="scope-node node-three">03</span>
-            <span className="scope-node node-four">04</span>
-          </div>
-
-          <div className="signal-meta signal-meta-bottom">
-            <span>Signal acquired</span>
-            <span>34.0209° N</span>
-          </div>
-        </div>
+        <Scope />
 
         <div className="hero-index" aria-hidden="true">
           <span>01</span>
@@ -93,30 +51,33 @@ export default function Home() {
         </div>
       </section>
 
-      <div className="signal-strip" aria-label="VoidSec disciplines">
+      <div className="signal-strip">
         <div className="signal-track">
-          {[0, 1].map((copy) => (
-            <div className="signal-track-copy" key={copy} aria-hidden={copy === 1}>
-              <span>Web exploitation</span><i />
-              <span>Open-source intelligence</span><i />
-              <span>Cryptography</span><i />
-              <span>Reverse engineering</span><i />
-              <span>Pwn</span><i />
-              <span>Miscellaneous</span><i />
+          {[0, 1, 2, 3].map((copy) => (
+            <div className="signal-track-copy" key={copy} aria-hidden={copy !== 0}>
+              {strip.map((item) => (
+                <Fragment key={item}>
+                  <span>{item}</span>
+                  <i />
+                </Fragment>
+              ))}
             </div>
           ))}
         </div>
       </div>
 
-      <section className="operators-section shell section" id="operators">
+      <section className="operators-section shell section" id="team">
         <div className="section-heading">
           <div>
-            <span className="section-kicker">01 / Operators</span>
-            <h2>Meet the crew<span>.</span></h2>
+            <span className="section-kicker">01 / Team</span>
+            <h2>
+              The four of us<span>.</span>
+            </h2>
           </div>
           <p>
-            Focused disciplines. Shared context. Every challenge gets the right
-            pair of eyes—and then the whole room.
+            Four disciplines that overlap on every engagement: an odd response
+            header becomes an exposure lead, a key-handling detail becomes a
+            path into the data, a binary detail becomes control.
           </p>
         </div>
 
@@ -134,7 +95,7 @@ export default function Home() {
               </div>
 
               <div className="operator-identity">
-                <h3>{member.handle}</h3>
+                <h3>{member.name ?? member.handle}</h3>
                 <span>{member.role}</span>
               </div>
 
@@ -153,71 +114,82 @@ export default function Home() {
             </article>
           ))}
         </div>
+
+        <div className="section-more">
+          <Link className="text-link" href="/team">
+            More on the team
+            <ArrowUpRight />
+          </Link>
+        </div>
       </section>
 
-      <section className="capabilities-section section" id="capabilities">
+      <section className="capabilities-section section" id="services">
         <div className="shell capabilities-shell">
           <div className="capabilities-intro">
-            <span className="section-kicker section-kicker-dark">02 / Capabilities</span>
+            <span className="section-kicker section-kicker-dark">02 / Services</span>
             <h2>
-              Different layers.
+              Four ways in.
               <br />
-              <em>Same signal.</em>
+              <em>Same discipline.</em>
             </h2>
             <p>
-              VoidSec works horizontally across the board. Each specialty is a
-              different entry point into the same problem.
+              Two of these start from what an attacker can reach, two from what
+              an auditor or an incident would expose. All four end the same way:
+              a written account of what is wrong and what it takes to fix.
             </p>
+
+            <Link className="text-link text-link-dark" href="/services">
+              All services
+              <ArrowUpRight />
+            </Link>
           </div>
 
           <div className="capability-list">
-            {capabilities.map((capability) => (
-              <article className="capability-row" key={capability.index}>
-                <span className="capability-index">{capability.index}</span>
+            {services.map((service) => (
+              <Link
+                className="capability-row"
+                href={`/services#${service.slug}`}
+                key={service.slug}
+              >
+                <span className="capability-index">{service.index}</span>
                 <div className="capability-title">
-                  <span>{capability.label}</span>
-                  <h3>{capability.name}</h3>
+                  <span>{service.code}</span>
+                  <h3>{service.name}</h3>
                 </div>
-                <p>{capability.description}</p>
+                <p>{service.short}</p>
                 <Crosshair />
-              </article>
+              </Link>
             ))}
           </div>
         </div>
       </section>
 
-      <section className="manifesto shell section">
+      <section className="manifesto shell section" id="method">
         <div className="manifesto-aside">
           <span className="section-kicker">03 / Method</span>
           <div className="manifesto-counter">
-            <span>4</span>
-            <small>operators</small>
+            <span>5</span>
+            <small>steps, every engagement</small>
           </div>
         </div>
 
         <div className="manifesto-copy">
-          <p className="manifesto-lead">
-            We do not collect disciplines. We connect them.
-          </p>
+          <h2 className="manifesto-lead">
+            Every finding ships with the steps to trigger it.
+          </h2>
           <p className="manifesto-body">
-            A strange header becomes an OSINT lead. A ciphertext becomes a binary
-            primitive. A reversing detail becomes the path to control. The board
-            is connected, so we are too.
+            The four of us compete in capture the flag under the same name,
+            across web, cryptography, reverse engineering and binary
+            exploitation. The same people do the client work.
           </p>
 
           <div className="method-steps">
-            <div>
-              <span>01</span>
-              <p>Observe without assumptions.</p>
-            </div>
-            <div>
-              <span>02</span>
-              <p>Reduce the attack surface.</p>
-            </div>
-            <div>
-              <span>03</span>
-              <p>Share signal, not noise.</p>
-            </div>
+            {principles.map((principle) => (
+              <div key={principle.index}>
+                <span>{principle.index}</span>
+                <p>{principle.title}</p>
+              </div>
+            ))}
           </div>
         </div>
       </section>
@@ -226,37 +198,32 @@ export default function Home() {
         <div className="contact-grid" aria-hidden="true" />
         <div className="shell contact-shell">
           <div className="contact-label">
-            <span className="status-pulse" />
-            Secure channel provisioning
+            <span className="status-pulse" aria-hidden="true" />
+            Scoping calls open
           </div>
           <h2>
-            Enter the
+            Let&apos;s
             <br />
-            <span>void.</span>
+            <span>talk.</span>
           </h2>
           <div className="contact-bottom">
             <p>
-              Official team email and domain are coming online next. Until then,
-              the crew is focused on the board.
+              No charge, and no proposal until the scope is written down. If we
+              are not the right people for the job, you will hear that on the
+              call rather than in month two.
             </p>
-            <div className="contact-pending">
-              <span>Contact route</span>
-              <strong>INITIALIZING<span className="blink">_</span></strong>
+            <div className="contact-actions">
+              <Link className="contact-cta" href="/contact">
+                Request a scoping call
+                <ArrowUpRight />
+              </Link>
+              <a className="contact-mail" href={`mailto:${site.email}`}>
+                {site.email}
+              </a>
             </div>
           </div>
         </div>
       </section>
-
-      <footer className="site-footer shell">
-        <a className="brand footer-brand" href="#top" aria-label="Back to top">
-          <span className="brand-mark" aria-hidden="true"><span>V</span><i /></span>
-          <span className="brand-name">VOIDSEC</span>
-        </a>
-        <p>Capture the flag collective / {year}</p>
-        <a href="#top" className="back-to-top">
-          Back to top <ArrowUpRight />
-        </a>
-      </footer>
-    </main>
+    </>
   );
 }
