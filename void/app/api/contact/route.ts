@@ -127,7 +127,7 @@ export async function POST(request: Request) {
         from,
         to: [to],
         reply_to: email,
-        subject: `[voidsec] ${subject} — ${name}`,
+        subject: `[voidsec.sh] ${subject} — ${name}`,
         text,
       }),
     });

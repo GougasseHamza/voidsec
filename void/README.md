@@ -62,9 +62,9 @@ instead of the handle.
 
 ## Before going live
 
-1. **Buy the domain and set the real mailbox.** `site.email` is currently the
-   placeholder `contact@voidsec.ma`. Update `site.email` and `site.url` in
-   `lib/site-data.ts`.
+1. **Confirm `contact@voidsec.sh` actually receives mail.** It is published on
+   every page and in the footer. If the mailbox does not exist yet, either
+   create it or change `site.email` in `lib/site-data.ts`.
 2. **Verify the regulatory references** in the `compliance-readiness` service
    (Law 05-20, DGSSI, CNDP, ISO/IEC 27001) against current Moroccan
    requirements before publishing them as a service scope.
@@ -78,14 +78,20 @@ instead of the handle.
 
 ```
 RESEND_API_KEY=re_...
-CONTACT_FROM=website@yourdomain.ma   # must be a Resend-verified sender
-CONTACT_TO=you@yourdomain.ma         # required — where enquiries land
+CONTACT_FROM=website@voidsec.sh      # must be a Resend-verified sender
+CONTACT_TO=contact@voidsec.sh        # required — where enquiries land
 ```
 
 If any of the three is missing the route logs that fact server-side and returns
 503 with a message pointing at the email address — it never reports a message as
 delivered when it was not. The endpoint is rate limited to five submissions per
 IP per ten minutes.
+
+**DNS note.** `voidsec.sh` currently publishes `v=spf1 include:zohomail.com ~all`,
+so Zoho is the only sender authorised for the domain. Before Resend can send as
+`@voidsec.sh` you must add its DKIM record and include it in SPF, or send from a
+subdomain Resend owns the records for. Until that is done the form will keep
+returning its honest 503 rather than sending — it will not fail silently.
 
 ## Deploy to Vercel
 

@@ -8,12 +8,11 @@
 
 export const site = {
   name: "VoidSec",
-  // TODO: replace with the real mailbox once the domain is live.
-  email: "contact@voidsec.ma",
+  email: "contact@voidsec.sh",
   city: "Rabat",
   country: "Morocco",
   coords: "34.02° N",
-  url: "https://voidsec.ma",
+  url: "https://voidsec.sh",
   description:
     "VoidSec is a security consultancy in Rabat. We audit applications, infrastructure and cloud estates for Moroccan banks, insurers, telecoms and the companies that build for them.",
 };
