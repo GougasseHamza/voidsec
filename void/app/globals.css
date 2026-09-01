@@ -79,18 +79,97 @@ svg {
   mask: linear-gradient(180deg, transparent, #000 22%);
 }
 
-.ambient-pointer {
-  --pointer-x: 50vw;
-  --pointer-y: 24vh;
+.reticle {
   position: fixed;
-  inset: 0;
-  z-index: 0;
+  top: 0;
+  left: 0;
+  z-index: 90;
   pointer-events: none;
-  background: radial-gradient(
-    34rem circle at var(--pointer-x) var(--pointer-y),
-    rgba(199, 255, 82, 0.055),
-    transparent 72%
-  );
+  opacity: 0;
+  transition: opacity 220ms ease;
+  will-change: transform;
+}
+
+.reticle[data-visible="true"] { opacity: 1; }
+
+.reticle-box {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 34px;
+  height: 34px;
+  transform: translate(-50%, -50%) rotate(0deg);
+  transition:
+    width 260ms cubic-bezier(0.22, 0.72, 0.24, 1),
+    height 260ms cubic-bezier(0.22, 0.72, 0.24, 1),
+    transform 260ms cubic-bezier(0.22, 0.72, 0.24, 1);
+}
+
+/* Four corner brackets. */
+.reticle-box i {
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  border: 1px solid rgba(235, 236, 228, 0.55);
+  transition: border-color 200ms ease;
+}
+
+.reticle-box i:nth-child(1) { top: 0; left: 0; border-right: 0; border-bottom: 0; }
+.reticle-box i:nth-child(2) { top: 0; right: 0; border-left: 0; border-bottom: 0; }
+.reticle-box i:nth-child(3) { bottom: 0; right: 0; border-left: 0; border-top: 0; }
+.reticle-box i:nth-child(4) { bottom: 0; left: 0; border-right: 0; border-top: 0; }
+
+/* Hairline ticks reaching out from the box, like a scope graticule. */
+.reticle-tick {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  background: rgba(235, 236, 228, 0.28);
+  transform: translate(-50%, -50%);
+  transition:
+    background 200ms ease,
+    width 260ms ease,
+    height 260ms ease;
+}
+
+.reticle-tick-x { width: 54px; height: 1px; }
+.reticle-tick-y { width: 1px; height: 54px; }
+
+.reticle-label {
+  position: absolute;
+  top: 15px;
+  left: 20px;
+  color: var(--acid);
+  font-family: var(--mono);
+  font-size: 8px;
+  letter-spacing: 0.18em;
+  opacity: 0;
+  transform: translateX(-4px);
+  transition:
+    opacity 200ms ease,
+    transform 200ms ease;
+}
+
+/* Locked on something interactive: the box tightens and turns. */
+.reticle[data-locked="true"] .reticle-box {
+  width: 22px;
+  height: 22px;
+  transform: translate(-50%, -50%) rotate(45deg);
+}
+
+.reticle[data-locked="true"] .reticle-box i { border-color: var(--acid); }
+.reticle[data-locked="true"] .reticle-tick { background: rgba(199, 255, 82, 0.5); }
+.reticle[data-locked="true"] .reticle-tick-x { width: 30px; }
+.reticle[data-locked="true"] .reticle-tick-y { height: 30px; }
+
+.reticle[data-locked="true"] .reticle-label {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+/* Pointer-driven decoration is meaningless without a pointer. */
+@media (hover: none), (pointer: coarse) {
+  .reticle { display: none; }
 }
 
 .skip-link {
@@ -1932,5 +2011,4 @@ main { scroll-margin-top: calc(var(--header-h) + 22px); }
     transition-delay: 0ms !important;
     scroll-behavior: auto !important;
   }
-  .ambient-pointer { display: none; }
 }
