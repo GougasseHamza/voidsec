@@ -45,6 +45,9 @@ export function SiteFooter() {
                   <Link href={item.href}>{item.label}</Link>
                 </li>
               ))}
+              <li>
+                <Link href="/privacy">Privacy and cookies</Link>
+              </li>
             </ul>
           </div>
         </div>

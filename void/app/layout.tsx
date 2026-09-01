@@ -1,10 +1,11 @@
 import type { Metadata } from "next";
-import "@fontsource-variable/space-grotesk";
+import "@fontsource-variable/manrope";
 import "@fontsource/ibm-plex-mono/400.css";
 import "@fontsource/ibm-plex-mono/500.css";
 import "@fontsource/ibm-plex-mono/600.css";
 import "./globals.css";
 
+import { ConsentGate } from "@/components/consent";
 import { DigitalRain } from "@/components/digital-rain";
 import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
@@ -54,6 +55,7 @@ export default function RootLayout({
           {children}
         </main>
         <SiteFooter />
+        <ConsentGate />
       </body>
     </html>
   );

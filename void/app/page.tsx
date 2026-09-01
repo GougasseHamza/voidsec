@@ -19,11 +19,14 @@ export default function Home() {
             </span>
           </div>
 
+          {/* Lines are explicit: Manrope is narrower than the old face and
+              would otherwise orphan "do." on a third line. */}
           <h1>
             <span>Find it</span>
             <span className="hero-title-accent">
-              bef<span className="title-target">o</span>re they do.
+              bef<span className="title-target">o</span>re
             </span>
+            <span className="hero-title-accent">they do.</span>
           </h1>
 
           <div className="hero-intro-row">
