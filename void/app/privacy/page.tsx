@@ -31,10 +31,16 @@ export default function PrivacyPage() {
         <article>
           <h2>Cookies</h2>
           <p>
-            This site sets no cookies. Your analytics choice is kept in your
-            browser&apos;s local storage rather than a cookie, so asking the
-            question does not itself store anything on your device until you
-            answer it.
+            The banner groups storage into three categories. Necessary covers
+            anything the site needs to function and cannot be switched off.
+            Preferences remembers choices you make, including your answer to
+            the banner itself. Statistics covers the page view counting
+            described below.
+          </p>
+          <p>
+            Your answer is kept in your browser&apos;s local storage rather
+            than a cookie, so presenting the choice does not store anything on
+            your device until you make it.
           </p>
         </article>
 

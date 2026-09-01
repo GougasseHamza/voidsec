@@ -9,7 +9,6 @@ import { ConsentGate } from "@/components/consent";
 import { DigitalRain } from "@/components/digital-rain";
 import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
-import { TargetCursor } from "@/components/target-cursor";
 import { site } from "@/lib/site-data";
 
 export const metadata: Metadata = {
@@ -48,7 +47,6 @@ export default function RootLayout({
           Skip to content
         </a>
         <DigitalRain />
-        <TargetCursor />
         <SiteHeader />
         {/* tabIndex lets the skip link actually move focus, not just scroll. */}
         <main id="main" tabIndex={-1}>

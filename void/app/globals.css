@@ -79,99 +79,6 @@ svg {
   mask: linear-gradient(180deg, transparent, #000 22%);
 }
 
-.reticle {
-  position: fixed;
-  top: 0;
-  left: 0;
-  z-index: 90;
-  pointer-events: none;
-  opacity: 0;
-  transition: opacity 220ms ease;
-  will-change: transform;
-}
-
-.reticle[data-visible="true"] { opacity: 1; }
-
-.reticle-box {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  width: 34px;
-  height: 34px;
-  transform: translate(-50%, -50%) rotate(0deg);
-  transition:
-    width 260ms cubic-bezier(0.22, 0.72, 0.24, 1),
-    height 260ms cubic-bezier(0.22, 0.72, 0.24, 1),
-    transform 260ms cubic-bezier(0.22, 0.72, 0.24, 1);
-}
-
-/* Four corner brackets. */
-.reticle-box i {
-  position: absolute;
-  width: 8px;
-  height: 8px;
-  border: 1px solid rgba(235, 236, 228, 0.55);
-  transition: border-color 200ms ease;
-}
-
-.reticle-box i:nth-child(1) { top: 0; left: 0; border-right: 0; border-bottom: 0; }
-.reticle-box i:nth-child(2) { top: 0; right: 0; border-left: 0; border-bottom: 0; }
-.reticle-box i:nth-child(3) { bottom: 0; right: 0; border-left: 0; border-top: 0; }
-.reticle-box i:nth-child(4) { bottom: 0; left: 0; border-right: 0; border-top: 0; }
-
-/* Hairline ticks reaching out from the box, like a scope graticule. */
-.reticle-tick {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  background: rgba(235, 236, 228, 0.28);
-  transform: translate(-50%, -50%);
-  transition:
-    background 200ms ease,
-    width 260ms ease,
-    height 260ms ease;
-}
-
-.reticle-tick-x { width: 54px; height: 1px; }
-.reticle-tick-y { width: 1px; height: 54px; }
-
-.reticle-label {
-  position: absolute;
-  top: 15px;
-  left: 20px;
-  color: var(--acid);
-  font-family: var(--mono);
-  font-size: 8px;
-  letter-spacing: 0.18em;
-  opacity: 0;
-  transform: translateX(-4px);
-  transition:
-    opacity 200ms ease,
-    transform 200ms ease;
-}
-
-/* Locked on something interactive: the box tightens and turns. */
-.reticle[data-locked="true"] .reticle-box {
-  width: 22px;
-  height: 22px;
-  transform: translate(-50%, -50%) rotate(45deg);
-}
-
-.reticle[data-locked="true"] .reticle-box i { border-color: var(--acid); }
-.reticle[data-locked="true"] .reticle-tick { background: rgba(199, 255, 82, 0.5); }
-.reticle[data-locked="true"] .reticle-tick-x { width: 30px; }
-.reticle[data-locked="true"] .reticle-tick-y { height: 30px; }
-
-.reticle[data-locked="true"] .reticle-label {
-  opacity: 1;
-  transform: translateX(0);
-}
-
-/* Pointer-driven decoration is meaningless without a pointer. */
-@media (hover: none), (pointer: coarse) {
-  .reticle { display: none; }
-}
-
 .skip-link {
   position: fixed;
   top: 0;
@@ -1276,17 +1183,15 @@ main { scroll-margin-top: calc(var(--header-h) + 22px); }
   z-index: 99;
   left: 50%;
   bottom: 22px;
-  width: min(92vw, 620px);
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) auto;
-  gap: clamp(18px, 3vw, 36px);
-  align-items: center;
-  padding: 22px 24px;
+  width: min(94vw, 560px);
+  max-height: calc(100vh - 44px);
+  overflow-y: auto;
+  padding: 24px 26px;
   transform: translateX(-50%);
-  border: 1px solid var(--line-2, rgba(235, 236, 228, 0.28));
+  border: 1px solid rgba(235, 236, 228, 0.28);
   background: var(--ink);
   box-shadow: 0 18px 50px rgba(0, 0, 0, 0.55);
-  animation: consent-in 380ms cubic-bezier(0.22, 0.72, 0.24, 1) both;
+  animation: consent-in 320ms cubic-bezier(0.22, 0.72, 0.24, 1) both;
 }
 
 @keyframes consent-in {
@@ -1294,8 +1199,8 @@ main { scroll-margin-top: calc(var(--header-h) + 22px); }
   to { opacity: 1; transform: translate(-50%, 0); }
 }
 
-.consent-body h2 {
-  margin: 0 0 8px;
+.consent h2 {
+  margin: 0 0 14px;
   color: var(--acid);
   font-family: var(--mono);
   font-size: 9px;
@@ -1304,59 +1209,112 @@ main { scroll-margin-top: calc(var(--header-h) + 22px); }
   letter-spacing: 0.15em;
 }
 
-.consent-body p {
+.consent-copy p {
   margin: 0;
   color: var(--paper-dim);
   font-size: 13px;
-  line-height: 1.6;
+  line-height: 1.65;
 }
 
-.consent-body a {
-  color: var(--paper);
+.consent-copy p + p { margin-top: 10px; }
+
+/* --- Settings, expanded in place ----------------------------------------- */
+
+.consent-options {
+  margin: 20px 0 0;
+  padding: 0;
+  border: 0;
+  border-top: 1px solid var(--line);
+  display: grid;
+}
+
+.consent-options legend {
+  padding: 0;
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+}
+
+.consent-option {
+  display: grid;
+  grid-template-columns: 16px 1fr;
+  gap: 12px;
+  align-items: start;
+  padding-block: 14px;
   border-bottom: 1px solid var(--line);
-  transition: border-color 180ms ease;
+  cursor: pointer;
 }
 
-.consent-body a:hover { border-color: var(--acid); }
+.consent-option input {
+  width: 15px;
+  height: 15px;
+  margin: 2px 0 0;
+  accent-color: var(--acid);
+  cursor: pointer;
+}
+
+.consent-option.is-locked { cursor: default; }
+.consent-option.is-locked input { cursor: default; opacity: 0.55; }
+
+.consent-option span {
+  display: block;
+  color: var(--paper-dim);
+  font-size: 12px;
+  line-height: 1.55;
+}
+
+.consent-option strong {
+  display: block;
+  margin-bottom: 3px;
+  color: var(--paper);
+  font-size: 13px;
+  font-weight: 600;
+}
+
+/* --- Actions -------------------------------------------------------------- */
 
 .consent-actions {
   display: flex;
-  gap: 10px;
+  flex-wrap: wrap;
+  gap: 9px;
+  margin-top: 20px;
 }
 
-/* Refusing has to be exactly as easy as accepting, so both are the same
-   size and weight. Only the colour differs. */
+/* Every option is the same size and weight, so refusing is exactly as easy
+   as accepting. Only colour separates the primary action. */
 .consent-actions button {
-  padding: 11px 18px;
+  flex: 1 1 auto;
+  padding: 12px 16px;
   border: 1px solid var(--line);
   background: none;
   color: var(--paper);
   font-family: var(--mono);
   font-size: 10px;
   text-transform: uppercase;
-  letter-spacing: 0.13em;
+  letter-spacing: 0.11em;
   cursor: pointer;
   transition: border-color 180ms ease, background 180ms ease, color 180ms ease;
 }
 
 .consent-actions button:hover { border-color: var(--paper-dim); }
 
-.consent-actions button:last-child {
+.consent-actions .consent-accept {
   color: var(--ink);
   background: var(--acid);
   border-color: var(--acid);
 }
 
-.consent-actions button:last-child:hover { background: var(--acid-soft); }
+.consent-actions .consent-accept:hover { background: var(--acid-soft); }
 
-@media (max-width: 620px) {
+@media (max-width: 560px) {
   .consent {
-    grid-template-columns: 1fr;
-    gap: 18px;
     bottom: 12px;
+    padding: 20px;
   }
 
-  .consent-actions button { flex: 1; }
+  .consent-actions button { flex: 1 1 100%; }
 }
 
 /* --- Privacy page -------------------------------------------------------- */

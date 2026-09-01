@@ -1,24 +1,40 @@
 "use client";
 
 /**
- * Consent state, shared by the banner and the controls on the privacy page.
+ * Cookie consent state.
  *
- * Kept in localStorage rather than a cookie, so asking about cookies does not
- * itself set one.
+ * Three categories, matching what the banner tells people:
+ *   necessary   always on, not optional
+ *   preferences remembers interface choices
+ *   statistics  gates analytics
+ *
+ * Stored in localStorage rather than a cookie, so presenting the choice does
+ * not itself store anything until it is answered.
  */
 
 const KEY = "voidsec.consent";
 const EVENT = "voidsec:consent";
 
-/** "unknown" only ever appears server-side, before the browser has been read. */
-export type ConsentState = "unknown" | "none" | "granted" | "denied";
+export type ConsentPrefs = {
+  preferences: boolean;
+  statistics: boolean;
+};
 
-export function setConsent(value: "granted" | "denied" | null) {
+/** "unknown" only appears server-side, before the browser has been read. */
+export type ConsentState = "unknown" | "unset" | ConsentPrefs;
+
+export const ALL_ON: ConsentPrefs = { preferences: true, statistics: true };
+export const NECESSARY_ONLY: ConsentPrefs = {
+  preferences: false,
+  statistics: false,
+};
+
+export function setConsent(value: ConsentPrefs | null) {
   try {
     if (value === null) window.localStorage.removeItem(KEY);
-    else window.localStorage.setItem(KEY, value);
+    else window.localStorage.setItem(KEY, JSON.stringify(value));
   } catch {
-    // Storage unavailable. Nothing to persist; the event still updates the UI.
+    // Storage unavailable. Nothing persists, but the UI still updates.
   }
   window.dispatchEvent(new Event(EVENT));
 }
@@ -28,9 +44,9 @@ export function subscribeConsent(callback: () => void) {
   window.addEventListener("storage", callback);
 
   /*
-   * React uses getServerSnapshot during hydration and only re-reads when the
-   * store notifies. With no notification the value would stay "unknown"
-   * forever, so nudge once on the first tick after hydration.
+   * React reads getServerSnapshot during hydration and only re-reads when the
+   * store notifies. Without this nudge the state stays "unknown" forever and
+   * the banner never appears.
    */
   const id = window.setTimeout(callback, 0);
 
@@ -41,16 +57,46 @@ export function subscribeConsent(callback: () => void) {
   };
 }
 
+/*
+ * useSyncExternalStore compares snapshots with Object.is, so parsing a fresh
+ * object on every call would loop forever. Cache against the raw string.
+ */
+let cachedRaw: string | null = null;
+let cachedValue: ConsentState = "unset";
+
 export function getConsentSnapshot(): ConsentState {
+  let raw: string | null = null;
   try {
-    const raw = window.localStorage.getItem(KEY);
-    if (raw === "granted" || raw === "denied") return raw;
-    return "none";
+    raw = window.localStorage.getItem(KEY);
   } catch {
-    return "none";
+    raw = null;
   }
+
+  if (raw === cachedRaw) return cachedValue;
+  cachedRaw = raw;
+
+  if (raw === null) {
+    cachedValue = "unset";
+    return cachedValue;
+  }
+
+  try {
+    const parsed = JSON.parse(raw) as Partial<ConsentPrefs>;
+    cachedValue = {
+      preferences: parsed.preferences === true,
+      statistics: parsed.statistics === true,
+    };
+  } catch {
+    cachedValue = "unset";
+  }
+
+  return cachedValue;
 }
 
 export function getConsentServerSnapshot(): ConsentState {
   return "unknown";
+}
+
+export function isDecided(state: ConsentState): state is ConsentPrefs {
+  return state !== "unknown" && state !== "unset";
 }
