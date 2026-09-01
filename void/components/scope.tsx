@@ -1,6 +1,23 @@
 import { site } from "@/lib/site-data";
 
-/** The hero instrument graphic. Four nodes = the four practice areas. */
+/**
+ * Hero instrument graphic. Four contacts plotted on the scope, one per
+ * practice area.
+ *
+ * Each contact sits at a real polar position (angle clockwise from twelve
+ * o'clock, radius as a share of the scope) and blips as the sweep reaches it.
+ * The blip delay is derived from the angle, so the timing stays correct if the
+ * sweep period changes: delay = (angle / 360) * SWEEP.
+ */
+const SWEEP_SECONDS = 8;
+
+const contacts = [
+  { id: "01", angle: 38, radius: 30 },
+  { id: "02", angle: 118, radius: 38 },
+  { id: "03", angle: 205, radius: 23 },
+  { id: "04", angle: 300, radius: 34 },
+];
+
 export function Scope() {
   return (
     <div className="signal-stage" aria-hidden="true">
@@ -10,20 +27,40 @@ export function Scope() {
       </div>
 
       <div className="scope">
-        <div className="scope-ring scope-ring-one" />
-        <div className="scope-ring scope-ring-two" />
-        <div className="scope-ring scope-ring-three" />
+        <div className="scope-bezel" />
+        <div className="scope-cardinals" />
+
+        <div className="scope-ring" style={{ "--s": "34%" } as React.CSSProperties} />
+        <div className="scope-ring" style={{ "--s": "67%" } as React.CSSProperties} />
+        <div className="scope-ring scope-ring-edge" />
+
         <div className="scope-axis scope-axis-x" />
         <div className="scope-axis scope-axis-y" />
+
         <div className="scope-sweep" />
+
+        {contacts.map((contact) => (
+          <div
+            className="scope-contact"
+            key={contact.id}
+            style={
+              {
+                "--a": `${contact.angle}deg`,
+                "--r": `${contact.radius}%`,
+                "--d": `${((contact.angle / 360) * SWEEP_SECONDS).toFixed(2)}s`,
+              } as React.CSSProperties
+            }
+          >
+            <i>
+              <b />
+              <span>{contact.id}</span>
+            </i>
+          </div>
+        ))}
+
         <div className="scope-core">
-          <span className="scope-slash">/</span>
           <span>VS</span>
         </div>
-        <span className="scope-node node-one">01</span>
-        <span className="scope-node node-two">02</span>
-        <span className="scope-node node-three">03</span>
-        <span className="scope-node node-four">04</span>
       </div>
 
       <div className="signal-meta signal-meta-bottom">
