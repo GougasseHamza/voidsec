@@ -64,6 +64,21 @@ svg {
   margin-inline: auto;
 }
 
+.digital-rain {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  opacity: 0.17;
+  /* Rendered at half resolution, so the upscale does part of this for free. */
+  filter: blur(2.5px);
+  /* Fade it out toward the top so it never crowds the header. */
+  -webkit-mask: linear-gradient(180deg, transparent, #000 22%);
+  mask: linear-gradient(180deg, transparent, #000 22%);
+}
+
 .ambient-pointer {
   --pointer-x: 50vw;
   --pointer-y: 24vh;

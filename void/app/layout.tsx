@@ -6,6 +6,7 @@ import "@fontsource/ibm-plex-mono/600.css";
 import "./globals.css";
 
 import { AmbientPointer } from "@/components/ambient-pointer";
+import { DigitalRain } from "@/components/digital-rain";
 import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
 import { site } from "@/lib/site-data";
@@ -45,6 +46,7 @@ export default function RootLayout({
         <a className="skip-link" href="#main">
           Skip to content
         </a>
+        <DigitalRain />
         <AmbientPointer />
         <SiteHeader />
         {/* tabIndex lets the skip link actually move focus, not just scroll. */}
